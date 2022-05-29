@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="timeEntity"
+            type="com.tamara.care.watch.data.entity.TimeEntity" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="16dp"
+            android:textColor="@color/gun_powder"
+            android:textSize="16sp"
+            app:fullDateWithSeconds="@{timeEntity}"
+            app:drawableStartCompat="@drawable/ic_empty"
+            tools:text="sda alkj fdflkdf hklsk sldkk sa lhahlsflsfjgslhggldfhgdfgflhgfdlhg " />
+
+    </FrameLayout>
+</layout>

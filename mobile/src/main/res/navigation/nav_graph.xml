@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/proximityFragment"
+        android:name="com.tamara.care.watch.presentation.proximity.ProximityFragment"
+        tools:layout="@layout/fragment_proximity">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/beaconSetupFragment"
+        android:name="com.tamara.care.watch.presentation.setup.BeaconSetupFragment"
+        tools:layout="@layout/fragment_setup_beacon">
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/beaconSetupDialogFragment"
+        android:name="com.tamara.care.watch.presentation.setup.BeaconSetupDialogFragment"
+        tools:layout="@layout/fragment_dialog_setup_beacon">
+
+
+
+    </dialog>
+    <fragment
+        android:id="@+id/roomFragment"
+        android:name="com.tamara.care.watch.presentation.room.RoomFragment"
+        android:label="RoomFragment"
+        tools:layout="@layout/fragment_room" />
+    <dialog
+        android:id="@+id/filterBottomDialogFragment"
+        android:name="com.tamara.care.watch.presentation.dialog.FilterBottomDialogFragment"
+        android:label="FilterBottomDialogFragment"
+        tools:layout="@layout/fragment_dialog_bottom_filter" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.tamara.care.watch.presentation.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/therapistFragment"
+        android:name="com.tamara.care.watch.presentation.therapist.TherapistFragment"
+        android:label="TherapistFragment"
+        tools:layout="@layout/fragment_therapist" />
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.tamara.care.watch.presentation.chat.ChatFragment"
+        android:label="ChatFragment"
+        tools:layout="@layout/fragment_chat" />
+
+    <action
+        android:id="@+id/toRoomFragment"
+        app:destination="@id/roomFragment"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out" />
+
+    <action
+        android:id="@+id/toPatientFragment"
+        app:destination="@id/patientFragment"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out" />
+
+    <action
+        android:id="@+id/toSetupFragment"
+        app:destination="@id/beaconSetupFragment"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out" />
+
+    <action
+        android:id="@+id/toTherapistFragment"
+        app:destination="@id/therapistFragment"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out" />
+
+    <action
+        android:id="@+id/toChatFragment"
+        app:destination="@id/chatFragment"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out" />
+
+    <action
+        android:id="@+id/toProximityFragment"
+        app:destination="@id/proximityFragment"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out" />
+    <fragment
+        android:id="@+id/patientFragment"
+        android:name="com.tamara.care.watch.presentation.patient.PatientFragment"
+        android:label="PatientFragment"
+        tools:layout="@layout/fragment_patient" />
+    <dialog
+        android:id="@+id/transmitterSetupDialogFragment"
+        android:name="com.tamara.care.watch.presentation.setup.TransmitterSetupDialogFragment"
+        android:label="TransmitterSetupDialogFragment" />
+
+
+</navigation>

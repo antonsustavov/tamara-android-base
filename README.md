@@ -1,0 +1,1 @@
+# -tamara-android-base

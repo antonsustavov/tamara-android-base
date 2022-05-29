@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="physicalParameter"
+            type="com.tamara.care.watch.data.entity.ParametersEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:time="@{physicalParameter.dateTime}"
+            tools:text="Oct 2, 14:32" />
+
+        <TextView
+            android:id="@+id/heartRateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/heart_rate"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dateTextView"
+            tools:text="Heart rate:" />
+
+        <TextView
+            android:id="@+id/heartRateValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{physicalParameter.heartRate}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/heartRateTextView"
+            app:layout_constraintStart_toEndOf="@id/heartRateTextView"
+            app:layout_constraintTop_toTopOf="@id/heartRateTextView"
+            tools:text="123" />
+
+        <TextView
+            android:id="@+id/temperatureTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/temperature"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/heartRateValueTextView"
+            tools:text="Temperature:" />
+
+        <TextView
+            android:id="@+id/temperatureValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{physicalParameter.temperature}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/temperatureTextView"
+            app:layout_constraintStart_toEndOf="@id/temperatureTextView"
+            app:layout_constraintTop_toTopOf="@id/temperatureTextView"
+            tools:text="123" />
+
+        <TextView
+            android:id="@+id/gyroscopeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/gyroscope_value"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:visibility="@{physicalParameter.gyroscope == null ? View.GONE :View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/temperatureTextView"
+            tools:text="Last gyroscope value:" />
+
+        <TextView
+            android:id="@+id/gyroscopeValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:visibility="@{physicalParameter.gyroscope == null ? View.GONE :View.VISIBLE}"
+            android:text="@{physicalParameter.gyroscope}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/gyroscopeTextView"
+            app:layout_constraintStart_toEndOf="@id/gyroscopeTextView"
+            app:layout_constraintTop_toTopOf="@id/gyroscopeTextView"
+            tools:text="123" />
+
+        <TextView
+            android:id="@+id/gyroscopeChangesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/gyroscope_changes"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gyroscopeTextView"
+            tools:text="Gyroscope changes::" />
+
+        <TextView
+            android:id="@+id/gyroscopeChangesValueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{physicalParameter.gyroChanges}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/gyroscopeChangesTextView"
+            app:layout_constraintStart_toEndOf="@id/gyroscopeChangesTextView"
+            app:layout_constraintTop_toTopOf="@id/gyroscopeChangesTextView"
+            tools:text="123" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

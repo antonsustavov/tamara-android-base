@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/proximity"
+        android:title="@string/proximity" />
+
+    <item
+        android:id="@+id/therapist_details"
+        android:icon="@drawable/ic_therapist_details"
+        android:title="@string/therapist_details" />
+
+    <item
+        android:id="@+id/way_of_treatment"
+        android:icon="@drawable/ic_way_of_treatment"
+        android:title="@string/way_of_treatment" />
+
+    <item
+        android:id="@+id/financial"
+        android:icon="@drawable/ic_financial"
+        android:title="@string/financial" />
+
+    <item
+        android:id="@+id/health_indices"
+        android:icon="@drawable/ic_health_indices"
+        android:title="@string/health_indices" />
+
+
+</menu>

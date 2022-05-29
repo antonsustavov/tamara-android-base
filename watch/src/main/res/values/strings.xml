@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Tamara watch</string>
+    <string name="service_state">Service state</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="service_is_inactive">Service is inactive</string>
+    <string name="service_is_active">Service is active</string>
+    <string name="enter_transmitter_name">Enter transmitter name:</string>
+    <string name="run_service">Run service</string>
+</resources>

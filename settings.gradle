@@ -1,0 +1,3 @@
+rootProject.name = "Care watch app"
+include ':watch'
+include ':mobile'

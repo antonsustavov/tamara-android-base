@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Care_watch_app.iml" filepath="$PROJECT_DIR$/.idea/modules/Care_watch_app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.iml" filepath="$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.main.iml" filepath="$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.iml" filepath="$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.main.iml" filepath="$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.unitTest.iml" />
+    </modules>
+  </component>
+</project>
