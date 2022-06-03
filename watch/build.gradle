@@ -10,13 +10,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.tamara.care.watch"
         minSdkVersion 28
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 3
         versionName "1.0"
 
@@ -42,6 +42,7 @@ android {
     dataBinding {
         enabled = true
     }
+//    dynamicFeatures = [':speechrecording']
 }
 
 ext {
@@ -93,7 +94,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // room
-    def room = "2.3.0"
+    def room = "2.4.2"
     implementation "androidx.room:room-runtime:$room"
     implementation "androidx.room:room-ktx:$room"
     kapt "androidx.room:room-compiler:$room"
