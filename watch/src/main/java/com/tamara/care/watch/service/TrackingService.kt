@@ -212,7 +212,7 @@ class TrackingService : LifecycleService(), SensorsDataService {
     }
 
     private fun trackSensors() {
-        getTemperature()
+//        getTemperature()
         getHeartBeat()
         getGyro()
     }

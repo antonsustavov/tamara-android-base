@@ -1,10 +1,17 @@
 package com.tamara.care.watch.presentation
 
+import android.Manifest
+import android.app.ActivityManager
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,6 +21,7 @@ import com.tamara.care.watch.R
 import com.tamara.care.watch.data.model.ModelState
 import com.tamara.care.watch.databinding.FragmentTransmitterBinding
 import com.tamara.care.watch.manager.SharedPreferencesManager
+import com.tamara.care.watch.speech.SpeechListener
 import com.tamara.care.watch.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -43,8 +51,14 @@ class TransmitterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.RECORD_AUDIO") != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), 9379995)
+        }
+
         setupViews()
         setupViewModeCallbacks()
+        startForegroundSpeechListener()
+        Log.i(">>>>> TRANSMITTER CREATED", ">>>> CREATED")
     }
 
     private fun setupViews() {
@@ -82,5 +96,25 @@ class TransmitterFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun startForegroundSpeechListener() {
+        if (!speechListenerServiceRunning()) {
+            val speechIntent = Intent(requireActivity(), SpeechListener::class.java)
+            requireContext().startForegroundService(speechIntent)
+        }
+    }
+
+    private fun speechListenerServiceRunning(): Boolean {
+        val systemService = requireContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+//        val systemService = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val runningServices = systemService.getRunningServices(Integer.MAX_VALUE)
+        for (runningServiceInfo in runningServices) {
+            if (runningServiceInfo.service.className == SpeechListener::class.java.name) {
+                return true
+            }
+        }
+
+        return false
     }
 }
