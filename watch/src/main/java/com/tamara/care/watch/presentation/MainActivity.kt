@@ -31,5 +31,8 @@ class MainActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, "android.permission.CALL_PHONE") != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), 9379996)
         }
+        if (ContextCompat.checkSelfPermission(this, "android.permission.CALL_PRIVILEGED") != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.CALL_PRIVILEGED), 9379997)
+        }
     }
 }

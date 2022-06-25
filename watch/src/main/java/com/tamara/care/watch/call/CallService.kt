@@ -3,12 +3,13 @@ package com.tamara.care.watch.call
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.LifecycleService
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CallService: LifecycleService() {
+class CallService @Inject constructor(): LifecycleService() {
     companion object {
-        const val TELEPHONE = "80988-987"
+        const val TELEPHONE = "0532363618"
     }
 
     fun call() {

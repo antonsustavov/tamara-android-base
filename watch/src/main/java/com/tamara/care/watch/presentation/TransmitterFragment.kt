@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.tamara.care.watch.R
+import com.tamara.care.watch.call.CallService
 import com.tamara.care.watch.data.model.ModelState
 import com.tamara.care.watch.databinding.FragmentTransmitterBinding
 import com.tamara.care.watch.manager.SharedPreferencesManager
@@ -53,6 +54,12 @@ class TransmitterFragment : Fragment() {
         setupViews()
         setupViewModeCallbacks()
         startForegroundSpeechListener()
+        startCallingService()
+    }
+
+    private fun startCallingService() {
+        val callIntent = Intent(requireActivity(), CallService::class.java)
+        requireContext().startForegroundService(callIntent)
     }
 
     private fun setupViews() {

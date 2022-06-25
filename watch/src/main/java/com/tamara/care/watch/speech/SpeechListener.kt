@@ -21,7 +21,7 @@ class SpeechListener : LifecycleService(), RecognitionListener {
     }
     private lateinit var speechRecognizer: SpeechRecognizer
     @Inject
-    private lateinit var callService: CallService
+    lateinit var callService: CallService
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.i(TAG, ">>>>>>>>>>>>>>>>>>>>> START")
