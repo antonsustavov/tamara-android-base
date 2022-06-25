@@ -1,14 +1,16 @@
 package com.tamara.care.watch.speech
 
+import android.app.Notification
 import android.content.Intent
 import android.os.Bundle
-import android.os.Looper
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.util.Log
 import androidx.lifecycle.LifecycleService
+import com.tamara.care.watch.R
 import com.tamara.care.watch.call.CallService
+import com.tamara.care.watch.manager.NotificationManager
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
@@ -16,17 +18,23 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SpeechListener : LifecycleService(), RecognitionListener {
     companion object {
-        const val TAG = "Speech Listener"
-        const val KEY = "help"
+        @JvmStatic
+        val TAG = "Speech Listener"
+        @JvmStatic
+        val KEY = "help"
+        @JvmStatic
+        val ID = 2
     }
+
     private lateinit var speechRecognizer: SpeechRecognizer
+    private lateinit var notificationManager: NotificationManager
+    private lateinit var currentNotification: Notification
+
     @Inject
     lateinit var callService: CallService
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.i(TAG, ">>>>>>>>>>>>>>>>>>>>> START")
-        Log.i(TAG, SpeechRecognizer.isRecognitionAvailable(this).toString())
-        Log.i(TAG, (Looper.myLooper() == Looper.getMainLooper()).toString())
+        Log.i(TAG, "START SPEECH")
 
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
         speechRecognizer.setRecognitionListener(this)
@@ -39,28 +47,31 @@ class SpeechListener : LifecycleService(), RecognitionListener {
     private fun startListening() {
         val voice = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         voice.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-        voice.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        voice.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+        )
         speechRecognizer.startListening(voice)
     }
 
     override fun onReadyForSpeech(params: Bundle?) {
-        Log.i(TAG, params.toString())
+        Log.d(TAG, params.toString())
     }
 
     override fun onBeginningOfSpeech() {
-        Log.i(TAG, "Beginning speech")
+        Log.d(TAG, "Beginning speech")
     }
 
     override fun onRmsChanged(rmsdB: Float) {
-        Log.i(TAG, rmsdB.toString())
+        Log.d(TAG, rmsdB.toString())
     }
 
     override fun onBufferReceived(buffer: ByteArray?) {
-        Log.i(TAG, buffer.toString())
+        Log.d(TAG, buffer.toString())
     }
 
     override fun onEndOfSpeech() {
-        Log.i(TAG, "END")
+        Log.d(TAG, "END")
     }
 
     override fun onError(error: Int) {
@@ -76,7 +87,7 @@ class SpeechListener : LifecycleService(), RecognitionListener {
             SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No speech input"
             else -> "Didn't understand, please try again."
         }
-        Log.i(TAG, message)
+        Log.d(TAG, message)
         speechRecognizer.cancel()
         startListening()
     }
@@ -87,28 +98,47 @@ class SpeechListener : LifecycleService(), RecognitionListener {
             Log.i(TAG, matches.toString())
             processVoiceRecognition(matches)
         } else {
-            Log.i(TAG, "SPEECH Result null")
+            Log.d(TAG, "SPEECH Result null")
         }
         speechRecognizer.cancel()
         startListening()
     }
 
     private fun processVoiceRecognition(matches: ArrayList<String>) {
-        if (matches.contains(KEY)) {
-            callService.call()
+        Log.i(TAG, ">>>>>> SPEECH MATCHING $matches")
+        matches.forEach {
+            if (it.contains(KEY)) {
+                callService.call(applicationContext)
+            }
         }
     }
 
     override fun onPartialResults(partialResults: Bundle?) {
-        Log.i(TAG, partialResults.toString())
+        Log.d(TAG, partialResults.toString())
     }
 
     override fun onEvent(eventType: Int, params: Bundle?) {
-        Log.i(TAG, eventType.toString() + " " + params.toString())
+        Log.d(TAG, eventType.toString() + " " + params.toString())
     }
 
     override fun onDestroy() {
         super.onDestroy()
         speechRecognizer.destroy()
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        Log.d(TAG, "ON CREATE")
+        notificationManager = NotificationManager(this)
+        createNotification()
+    }
+
+    private fun createNotification() {
+        notificationManager.createNotification(
+            title = getString(R.string.service_state),
+            description = "run",
+        )
+        currentNotification = notificationManager.getCurrentNotification()
+        startForeground(ID, currentNotification)
     }
 }

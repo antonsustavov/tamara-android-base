@@ -50,6 +50,12 @@ class TransmitterFragment : Fragment() {
         if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.RECORD_AUDIO") != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), 9379995)
         }
+        if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.CALL_PHONE") != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), 9379996)
+        }
+        if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.CALL_PRIVILEGED") != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.CALL_PRIVILEGED), 9379997)
+        }
 
         setupViews()
         setupViewModeCallbacks()

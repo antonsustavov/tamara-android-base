@@ -151,6 +151,12 @@ class MainFragment : Fragment() {
             ) != PackageManager.PERMISSION_GRANTED -> {
                 requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), 9379995)
             }
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CALL_PHONE
+            ) != PackageManager.PERMISSION_GRANTED -> {
+                requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), 9379996)
+            }
             else -> {
 
 //                requireContext().startForegroundService(

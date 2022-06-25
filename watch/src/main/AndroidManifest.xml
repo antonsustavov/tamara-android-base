@@ -23,13 +23,6 @@
 
     <uses-feature android:name="android.hardware.type.watch" />
 
-    <!--    <queries>-->
-    <!--        <package android:name="com.google.android.googlequicksearchbox"/>-->
-    <!--        <intent>-->
-    <!--            <action android:name="android.speech.RecognitionService" />-->
-    <!--        </intent>-->
-    <!--    </queries>-->
-
     <application
         android:name=".TamaraCareApplication"
         android:allowBackup="true"
@@ -64,18 +57,25 @@
             android:name=".service.TrackingService"
             android:foregroundServiceType="location|dataSync" />
 
-        <service android:name=".speech.SpeechListener">
-            <!--            <queries>-->
-            <!--                <intent>-->
-            <!--                    <action android:name="android.speech.RecognitionService" />-->
-            <!--                </intent>-->
-            <!--            </queries>-->
+        <service android:name=".speech.SpeechListener"
+            android:exported="false"
+            android:enabled="true"
+            android:foregroundServiceType="microphone">
         </service>
-        <service android:name=".call.CallService" />
+        <service
+            android:name=".call.CallService"
+            android:exported="false"
+            android:enabled="true"
+            android:foregroundServiceType="phoneCall">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_CALL" />
+            </intent-filter>
+        </service>
 
         <receiver
             android:name=".speech.SpeechListenerBroadcastReceiver"
-            android:exported="true">
+            android:exported="true"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
