@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -22,19 +21,15 @@ import com.tamara.care.watch.data.model.ModelState
 import com.tamara.care.watch.databinding.FragmentTransmitterBinding
 import com.tamara.care.watch.manager.SharedPreferencesManager
 import com.tamara.care.watch.speech.SpeechListener
+import com.tamara.care.watch.utils.hideKeyBoard
 import com.tamara.care.watch.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import com.tamara.care.watch.utils.hideKeyBoard
 
 @AndroidEntryPoint
 class TransmitterFragment : Fragment() {
-
-
     lateinit var binding: FragmentTransmitterBinding
-
     private val viewModel: TransmitterViewModel by viewModels()
-
     @Inject
     lateinit var sharedPreferencesManager: SharedPreferencesManager
 
@@ -58,7 +53,6 @@ class TransmitterFragment : Fragment() {
         setupViews()
         setupViewModeCallbacks()
         startForegroundSpeechListener()
-        Log.i(">>>>> TRANSMITTER CREATED", ">>>> CREATED")
     }
 
     private fun setupViews() {
@@ -107,7 +101,6 @@ class TransmitterFragment : Fragment() {
 
     private fun speechListenerServiceRunning(): Boolean {
         val systemService = requireContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-//        val systemService = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val runningServices = systemService.getRunningServices(Integer.MAX_VALUE)
         for (runningServiceInfo in runningServices) {
             if (runningServiceInfo.service.className == SpeechListener::class.java.name) {

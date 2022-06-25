@@ -2,8 +2,6 @@ package com.tamara.care.watch.presentation
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.ActivityManager
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -13,9 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.ContextCompat.startForegroundService
-import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -30,7 +25,6 @@ import com.tamara.care.watch.manager.SharedPreferencesManager
 import com.tamara.care.watch.manager.TrackWorker
 import com.tamara.care.watch.service.TrackingService
 import com.tamara.care.watch.service.TrackingService.Companion.isServiceTracking
-import com.tamara.care.watch.speech.SpeechListener
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -81,7 +75,6 @@ class MainFragment : Fragment() {
         }
         setupClicks()
         observeEventBus()
-//        startForegroundSpeechListener()
     }
 
     private fun observeEventBus() {
@@ -200,23 +193,4 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun startForegroundSpeechListener() {
-        if (!speechListenerServiceRunning()) {
-            val speechIntent = Intent(requireActivity(), SpeechListener::class.java)
-            requireContext().startForegroundService(speechIntent)
-        }
-    }
-
-    private fun speechListenerServiceRunning(): Boolean {
-        val systemService = requireContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-//        val systemService = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val runningServices = systemService.getRunningServices(Integer.MAX_VALUE)
-        for (runningServiceInfo in runningServices) {
-            if (runningServiceInfo.service.className == SpeechListener::class.java.name) {
-                return true
-            }
-        }
-
-        return false
-    }
 }

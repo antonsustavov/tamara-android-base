@@ -17,16 +17,17 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <uses-feature android:name="android.hardware.type.watch" />
 
-<!--    <queries>-->
-<!--        <package android:name="com.google.android.googlequicksearchbox"/>-->
-<!--        <intent>-->
-<!--            <action android:name="android.speech.RecognitionService" />-->
-<!--        </intent>-->
-<!--    </queries>-->
+    <!--    <queries>-->
+    <!--        <package android:name="com.google.android.googlequicksearchbox"/>-->
+    <!--        <intent>-->
+    <!--            <action android:name="android.speech.RecognitionService" />-->
+    <!--        </intent>-->
+    <!--    </queries>-->
 
     <application
         android:name=".TamaraCareApplication"
@@ -63,16 +64,20 @@
             android:foregroundServiceType="location|dataSync" />
 
         <service android:name=".speech.SpeechListener">
-<!--            <queries>-->
-<!--                <intent>-->
-<!--                    <action android:name="android.speech.RecognitionService" />-->
-<!--                </intent>-->
-<!--            </queries>-->
+            <!--            <queries>-->
+            <!--                <intent>-->
+            <!--                    <action android:name="android.speech.RecognitionService" />-->
+            <!--                </intent>-->
+            <!--            </queries>-->
         </service>
-                <receiver android:name=".speech.SpeechListenerBroadcastReceiver" android:exported="true">
-                    <intent-filter>
-                        <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                    </intent-filter>
-                </receiver>
+        <service android:name=".call.CallService" />
+
+        <receiver
+            android:name=".speech.SpeechListenerBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
