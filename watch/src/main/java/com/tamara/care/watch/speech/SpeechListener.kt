@@ -108,7 +108,8 @@ class SpeechListener : LifecycleService(), RecognitionListener {
         Log.i(TAG, ">>>>>> SPEECH MATCHING $matches")
         matches.forEach {
             if (it.contains(KEY)) {
-                callService.call(applicationContext)
+//                callService.call(applicationContext)
+                callService.call()
             }
         }
     }

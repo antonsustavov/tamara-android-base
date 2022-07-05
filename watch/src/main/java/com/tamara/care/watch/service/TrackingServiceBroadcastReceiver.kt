@@ -4,11 +4,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import androidx.work.impl.utils.ForceStopRunnable
 import com.tamara.care.watch.speech.SpeechListener
 
 class TrackingServiceBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
+        Toast.makeText(context, "Receiver intent ${intent.toString()}", Toast.LENGTH_LONG).show()
         if (intent?.action.equals(Intent.ACTION_BOOT_COMPLETED)) {
             val trackingIntent = Intent(context, TrackingService::class.java)
             context?.startForegroundService(trackingIntent)

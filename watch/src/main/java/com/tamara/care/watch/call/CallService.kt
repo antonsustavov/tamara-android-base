@@ -1,6 +1,5 @@
 package com.tamara.care.watch.call
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.LifecycleService
@@ -14,13 +13,22 @@ class CallService @Inject constructor() : LifecycleService() {
         val TELEPHONE = "0532363618"
     }
 
-    fun call(context: Context) {
+    fun call() {
         val intent = Intent(Intent.ACTION_CALL).apply {
             data = Uri.parse("tel:$TELEPHONE")
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             addFlags(Intent.FLAG_FROM_BACKGROUND)
         }
-        context.startActivity(intent)
+        this.startActivity(intent)
     }
+
+//    fun call(context: Context) {
+//        val intent = Intent(Intent.ACTION_CALL).apply {
+//            data = Uri.parse("tel:$TELEPHONE")
+//            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//            addFlags(Intent.FLAG_FROM_BACKGROUND)
+//        }
+//        context.startActivity(intent)
+//    }
 
 }
