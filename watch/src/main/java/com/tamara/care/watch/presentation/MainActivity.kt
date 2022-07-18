@@ -1,8 +1,12 @@
 package com.tamara.care.watch.presentation
 
 import android.Manifest
+import android.app.NotificationManager
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -21,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
+        //requestAccessNotificationPolicyPermission()
         checkPermissions()
     }
 
@@ -35,4 +40,12 @@ class MainActivity : AppCompatActivity() {
             requestPermissions(arrayOf(Manifest.permission.CALL_PRIVILEGED), 9379997)
         }
     }
+
+//    private fun requestAccessNotificationPolicyPermission() {
+//        val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//        if (!notificationManager.isNotificationPolicyAccessGranted()) {
+//            val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+//            this.startActivity(intent)
+//        }
+//    }
 }

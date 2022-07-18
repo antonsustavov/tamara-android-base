@@ -1,12 +1,17 @@
 package com.tamara.care.watch.speech
 
 import android.app.Notification
+import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.util.Log
+import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
 import com.tamara.care.watch.R
 import com.tamara.care.watch.call.CallService
@@ -14,6 +19,7 @@ import com.tamara.care.watch.manager.NotificationManager
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class SpeechListener : LifecycleService(), RecognitionListener {
@@ -29,6 +35,7 @@ class SpeechListener : LifecycleService(), RecognitionListener {
     private lateinit var speechRecognizer: SpeechRecognizer
     private lateinit var notificationManager: NotificationManager
     private lateinit var currentNotification: Notification
+    private lateinit var mAudioManager: AudioManager
 
     @Inject
     lateinit var callService: CallService
@@ -38,6 +45,7 @@ class SpeechListener : LifecycleService(), RecognitionListener {
 
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
         speechRecognizer.setRecognitionListener(this)
+        mAudioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         startListening()
 
@@ -52,10 +60,12 @@ class SpeechListener : LifecycleService(), RecognitionListener {
             RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
         )
         speechRecognizer.startListening(voice)
+//        mAudioManager.setVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER, AudioManager.VIBRATE_SETTING_OFF)
     }
 
     override fun onReadyForSpeech(params: Bundle?) {
         Log.d(TAG, params.toString())
+//        mAudioManager.setVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER, AudioManager.VIBRATE_SETTING_OFF)
     }
 
     override fun onBeginningOfSpeech() {
@@ -105,11 +115,14 @@ class SpeechListener : LifecycleService(), RecognitionListener {
     }
 
     private fun processVoiceRecognition(matches: ArrayList<String>) {
+//        val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
+//        vibrator.vibrate(VibrationEffect.createOneShot(5, 5))
         Log.i(TAG, ">>>>>> SPEECH MATCHING $matches")
+//        Log.d(TAG, vibrator.hasVibrator().toString())
+//        Log.d(TAG, mAudioManager.ringerMode.toString())
         matches.forEach {
-            if (it.contains(KEY)) {
-//                callService.call(applicationContext)
-                callService.call()
+            if (it.contains(KEY, true)) {
+                callService.call(applicationContext)
             }
         }
     }
@@ -130,6 +143,9 @@ class SpeechListener : LifecycleService(), RecognitionListener {
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "ON CREATE")
+//        mAudioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        //mAudioManager.ringerMode = 0
+//        mAudioManager.setVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER, AudioManager.VIBRATE_SETTING_OFF)
         notificationManager = NotificationManager(this)
         createNotification()
     }
