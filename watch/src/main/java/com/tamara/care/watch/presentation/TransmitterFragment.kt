@@ -61,8 +61,8 @@ class TransmitterFragment : Fragment() {
 
         setupViews()
         setupViewModeCallbacks()
-        startForegroundSpeechListener()
-        startCallingService()
+//        startForegroundSpeechListener()
+//        startCallingService()
     }
 
     private fun startCallingService() {

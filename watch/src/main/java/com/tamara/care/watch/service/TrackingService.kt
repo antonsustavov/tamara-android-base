@@ -12,6 +12,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.PowerManager
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
@@ -143,6 +144,8 @@ class TrackingService : LifecycleService(), SensorsDataService {
         val info = beaconsLiveData.value?.sortedByDescending {
             it.mMTFrameHandler.rssi
         }
+        Log.d("<<<<<<<< BEACONS", info?.isEmpty().toString())
+        Log.d("<<<<<<<< BEACONS", "${info?.isEmpty() == true}")
 
         if (connectionManager.isAvailableBluetoothConnection()) {
             if (connectionManager.isWiFiConnected.value == true && info?.isNotEmpty() == true) {
@@ -194,6 +197,10 @@ class TrackingService : LifecycleService(), SensorsDataService {
 //                    stopSelf()
 //                }
             } else {
+                if (info == null || info.isEmpty()) {
+                    Toast.makeText(this, "Scanning beacons", Toast.LENGTH_LONG).show()
+                    trackBeacons()
+                }
                 val wifi = getSystemService(WIFI_SERVICE) as WifiManager
                 wifi.isWifiEnabled = true
             }
@@ -209,6 +216,7 @@ class TrackingService : LifecycleService(), SensorsDataService {
         mtCentralManager.setMTCentralManagerListener { peripherals ->
             beaconsLiveData.value = peripherals
         }
+        Toast.makeText(this, "Beacons list ${beaconsLiveData.value.toString()}", Toast.LENGTH_LONG).show()
     }
 
     private fun trackSensors() {
