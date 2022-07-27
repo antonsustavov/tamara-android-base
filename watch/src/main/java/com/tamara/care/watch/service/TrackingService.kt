@@ -23,6 +23,7 @@ import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationResult
 import com.minew.beaconplus.sdk.MTCentralManager
 import com.minew.beaconplus.sdk.MTPeripheral
+import com.minew.beaconplus.sdk.enums.BluetoothState
 import com.tamara.care.watch.R
 import com.tamara.care.watch.data.entity.WatchInfoRequestEntity
 import com.tamara.care.watch.data.eventBus.EventServiceDie
@@ -68,6 +69,7 @@ class TrackingService : LifecycleService(), SensorsDataService {
     private var wakeLock: PowerManager.WakeLock? = null
     val handler = Handler(Looper.getMainLooper())
     private lateinit var runnableCode: Runnable
+    private lateinit var mtCentralManager: MTCentralManager
 
     @Inject
     lateinit var sharedPreferencesManager: SharedPreferencesManager
@@ -94,6 +96,7 @@ class TrackingService : LifecycleService(), SensorsDataService {
         createNotification()
         trackLocation()
         trackSensors()
+        setUpMTBeaconPlus()
         trackBeacons()
         startTimer()
     }
@@ -199,6 +202,7 @@ class TrackingService : LifecycleService(), SensorsDataService {
             } else {
                 if (info == null || info.isEmpty()) {
                     Toast.makeText(this, "Scanning beacons", Toast.LENGTH_LONG).show()
+                    stopBeacons()
                     trackBeacons()
                 }
                 val wifi = getSystemService(WIFI_SERVICE) as WifiManager
@@ -209,9 +213,23 @@ class TrackingService : LifecycleService(), SensorsDataService {
         }
     }
 
+    private fun setUpMTBeaconPlus() {
+        mtCentralManager = MTCentralManager.getInstance(this)
+        mtCentralManager.setBluetoothChangedListener {
+            when (it) {
+                BluetoothState.BluetoothStateNotSupported -> Log.d(">>>>>>>>>>>>>>>>>>>tag", "BluetoothStateNotSupported")
+                BluetoothState.BluetoothStatePowerOff -> Log.d(">>>>>>>>>>>>>>>>>>>>>tag", "BluetoothStatePowerOff")
+                BluetoothState.BluetoothStatePowerOn -> Log.d(">>>>>>>>>>>>>>>>>>>>>>>>tag", "BluetoothStatePowerOn")
+                else -> {Log.d("tag", "ERROR")}
+            }
+        }
+        mtCentralManager.startService()
+    }
+
     private fun trackBeacons() {
-        val mtCentralManager = MTCentralManager.getInstance(this)
-        mtCentralManager.setBluetoothChangedListener { }
+//        val mtCentralManager = MTCentralManager.getInstance(this)
+//        mtCentralManager.setBluetoothChangedListener { }
+//        mtCentralManager.stopScan()
         mtCentralManager.startScan()
         mtCentralManager.setMTCentralManagerListener { peripherals ->
             beaconsLiveData.value = peripherals
@@ -219,8 +237,19 @@ class TrackingService : LifecycleService(), SensorsDataService {
         Toast.makeText(this, "Beacons list ${beaconsLiveData.value.toString()}", Toast.LENGTH_LONG).show()
     }
 
+    private fun stopBeacons() {
+//        val mtCentralManager = MTCentralManager.getInstance(this)
+//        mtCentralManager.setBluetoothChangedListener { }
+//        mtCentralManager.stopScan()
+        mtCentralManager.stopScan()
+//        mtCentralManager.setMTCentralManagerListener { peripherals ->
+//            beaconsLiveData.value = peripherals
+//        }
+//        Toast.makeText(this, "Beacons list ${beaconsLiveData.value.toString()}", Toast.LENGTH_LONG).show()
+    }
+
     private fun trackSensors() {
-//        getTemperature()
+        getTemperature()
         getHeartBeat()
         getGyro()
     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.tamara.care.watch">
 
     <dist:module dist:instant="true" />
@@ -19,9 +20,18 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.CALL_PRIVILEGED" />
+    <uses-permission android:name="android.permission.CALL_PRIVILEGED"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.NEW_OUTGOING_CALL" />
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.CALL_LOG"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
 
     <uses-feature android:name="android.hardware.type.watch" />
 
@@ -95,5 +105,30 @@
                 <action android:name="android.intent.action.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".call.CallReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="0">
+                <action android:name="android.intent.action.PHONE_STATE" />
+<!--                <action android:name="android.intent.action.CAL" />-->
+<!--                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />-->
+            </intent-filter>
+                        <intent-filter>
+                            <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+                        </intent-filter>
+                        <intent-filter>
+                            <action android:name="android.intent.action.CAL" />
+                        </intent-filter>
+        </receiver>
+
+        <service android:name=".call.EnterCallService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_IN_CALL_SERVICE">
+            <meta-data android:name="android.telecom.IN_CALL_SERVICE_UI" android:value="true" />
+            <intent-filter>
+                <action android:name="android.telecom.InCallService"/>
+            </intent-filter>
+        </service>
     </application>
 </manifest>

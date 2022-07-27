@@ -2,8 +2,12 @@ package com.tamara.care.watch.presentation
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -17,6 +21,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.google.zxing.WriterException
+import com.google.zxing.qrcode.QRCodeWriter
 import com.tamara.care.watch.R
 import com.tamara.care.watch.data.eventBus.EventServiceDie
 import com.tamara.care.watch.data.eventBus.MessageEventBus
@@ -25,9 +33,11 @@ import com.tamara.care.watch.manager.SharedPreferencesManager
 import com.tamara.care.watch.manager.TrackWorker
 import com.tamara.care.watch.service.TrackingService
 import com.tamara.care.watch.service.TrackingService.Companion.isServiceTracking
+import com.tamara.care.watch.speech.SpeechListener
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -45,6 +55,7 @@ class MainFragment : Fragment() {
     private val compositeDisposable = CompositeDisposable()
 
     private lateinit var binding: FragmentMainBinding
+    lateinit var bitmap: Bitmap
 
     @Inject
     lateinit var sharedPreferencesManager: SharedPreferencesManager
@@ -55,6 +66,7 @@ class MainFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         binding.lifecycleOwner = this
+//        createQrCode()
         return binding.root
     }
 
@@ -62,6 +74,7 @@ class MainFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         binding.transmitterId.text = "id: ${sharedPreferencesManager.transmitterId}"
+        createQrCode()
         updateBackground()
     }
 
@@ -75,6 +88,7 @@ class MainFragment : Fragment() {
         }
         setupClicks()
         observeEventBus()
+//        requireContext().startForegroundService(Intent(requireActivity(), TrackingService::class.java))
     }
 
     private fun observeEventBus() {
@@ -102,8 +116,14 @@ class MainFragment : Fragment() {
 //            requireContext().startService(Intent(requireActivity(), TrackingService::class.java))
             Handler(Looper.getMainLooper()).postDelayed({
                 updateBackground()
+                startTrackingService()
             }, 1000L)
+            createQrCode()
         }
+    }
+
+    private fun startTrackingService() {
+        startForegroundTrackingService()
     }
 
     private fun updateBackground() {
@@ -116,6 +136,7 @@ class MainFragment : Fragment() {
             )
             binding.serviceStatus.text = requireContext().getString(R.string.service_is_active)
             binding.restart.visibility = View.GONE
+            binding.qrcodeImage.visibility = View.VISIBLE
         } else {
             binding.background.setBackgroundColor(
                 requireContext().resources.getColor(
@@ -125,6 +146,7 @@ class MainFragment : Fragment() {
             )
             binding.serviceStatus.text = requireContext().getString(R.string.service_is_inactive)
             binding.restart.visibility = View.VISIBLE
+            binding.qrcodeImage.visibility = View.VISIBLE
         }
     }
 
@@ -156,6 +178,18 @@ class MainFragment : Fragment() {
                 Manifest.permission.CALL_PHONE
             ) != PackageManager.PERMISSION_GRANTED -> {
                 requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), 9379996)
+            }
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED -> {
+                requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE), 9379997)
+            }
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ANSWER_PHONE_CALLS
+            ) != PackageManager.PERMISSION_GRANTED -> {
+                requestPermissions(arrayOf(Manifest.permission.ANSWER_PHONE_CALLS), 9379997)
             }
             else -> {
 
@@ -197,6 +231,49 @@ class MainFragment : Fragment() {
         if (!compositeDisposable.isDisposed) {
             compositeDisposable.dispose()
         }
+    }
+
+    private fun createQrCode() {
+        bitmap = textToImageEncode(sharedPreferencesManager.transmitterId)
+        binding.qrcodeImage.setImageBitmap(bitmap)
+    }
+
+    @Throws(WriterException::class)
+    fun textToImageEncode(Value: String?): Bitmap {
+        val hints: MutableMap<EncodeHintType, Any> = EnumMap(EncodeHintType::class.java)
+        hints[EncodeHintType.CHARACTER_SET] = "UTF-8"
+        hints[EncodeHintType.MARGIN] = 0
+        val bitMatrix = QRCodeWriter().encode(Value, BarcodeFormat.QR_CODE, 140, 140, hints)
+        val bitMatrixWidth = bitMatrix.width
+        val bitMatrixHeight = bitMatrix.height
+        val bitMap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.RGB_565)
+        for (x in 0 until bitMatrixWidth) {
+            for (y in 0 until bitMatrixHeight) {
+                bitMap.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
+            }
+        }
+
+        return bitMap
+    }
+
+    private fun startForegroundTrackingService() {
+        if (!trackingServiceRunning()) {
+            requireContext().startForegroundService(Intent(requireActivity(), TrackingService::class.java))
+//            val speechIntent = Intent(requireActivity(), SpeechListener::class.java)
+//            requireContext().startForegroundService(speechIntent)
+        }
+    }
+
+    private fun trackingServiceRunning(): Boolean {
+        val systemService = requireContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val runningServices = systemService.getRunningServices(Integer.MAX_VALUE)
+        for (runningServiceInfo in runningServices) {
+            if (runningServiceInfo.service.className == TrackingService::class.java.name) {
+                return true
+            }
+        }
+
+        return false
     }
 
 }

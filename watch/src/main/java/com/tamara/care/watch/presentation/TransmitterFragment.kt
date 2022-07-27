@@ -20,6 +20,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.tamara.care.watch.R
 import com.tamara.care.watch.call.CallService
+import com.tamara.care.watch.call.EnterCallService
 import com.tamara.care.watch.data.model.ModelState
 import com.tamara.care.watch.databinding.FragmentTransmitterBinding
 import com.tamara.care.watch.manager.SharedPreferencesManager
@@ -56,13 +57,26 @@ class TransmitterFragment : Fragment() {
             requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), 9379996)
         }
         if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.CALL_PRIVILEGED") != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.CALL_PRIVILEGED), 9379997)
+            requestPermissions(arrayOf(Manifest.permission.CALL_PRIVILEGED), 9479997)
         }
+        if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.READ_PHONE_STATE") != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE), 9579997)
+        }
+        if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.ANSWER_PHONE_CALLS") != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.ANSWER_PHONE_CALLS), 9579997)
+        }
+
 
         setupViews()
         setupViewModeCallbacks()
 //        startForegroundSpeechListener()
 //        startCallingService()
+        startEnterCallingService()
+    }
+
+    private fun startEnterCallingService() {
+        val callIntent = Intent(requireActivity(), EnterCallService::class.java)
+        requireContext().startForegroundService(callIntent)
     }
 
     private fun startCallingService() {
