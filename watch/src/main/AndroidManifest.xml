@@ -121,14 +121,14 @@
                         </intent-filter>
         </receiver>
 
-        <service android:name=".call.EnterCallService"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.BIND_IN_CALL_SERVICE">
-            <meta-data android:name="android.telecom.IN_CALL_SERVICE_UI" android:value="true" />
-            <intent-filter>
-                <action android:name="android.telecom.InCallService"/>
-            </intent-filter>
-        </service>
+<!--        <service android:name=".call.EnterCallService"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="true"-->
+<!--            android:permission="android.permission.BIND_IN_CALL_SERVICE">-->
+<!--            <meta-data android:name="android.telecom.IN_CALL_SERVICE_UI" android:value="true" />-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.telecom.InCallService"/>-->
+<!--            </intent-filter>-->
+<!--        </service>-->
     </application>
 </manifest>

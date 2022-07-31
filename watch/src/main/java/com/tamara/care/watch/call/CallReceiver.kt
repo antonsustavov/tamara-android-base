@@ -11,26 +11,28 @@ import android.telephony.TelephonyManager
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.tamara.care.watch.utils.ManagePermissions
 
 class CallReceiver: BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
+    private lateinit var managePermissions: ManagePermissions
 
+    override fun onReceive(context: Context?, intent: Intent?) {
         val telephonyAnswer = context!!.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ANSWER_PHONE_CALLS) != PackageManager.PERMISSION_GRANTED) {
-            return
+            managePermissions.checkPermissions()
         }
         telephonyAnswer.acceptRingingCall()
 
-        val telephony = context!!.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        val number = intent!!.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)
-        Log.d("NUMBER", ">>>>>>>>>>>>> phone $number")
-        telephony.listen(object : PhoneStateListener() {
-            override fun onCallStateChanged(state: Int, incomingNumber: String) {
-                super.onCallStateChanged(state, incomingNumber)
-                val msg = "incomingNumber : $incomingNumber"
-                val toast = Toast.makeText(context, msg, Toast.LENGTH_LONG)
-                toast.show()
-            }
-        }, PhoneStateListener.LISTEN_CALL_STATE)
+//        val telephony = context!!.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+//        val number = intent!!.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)
+//        Log.d("NUMBER", ">>>>>>>>>>>>> phone $number")
+//        telephony.listen(object : PhoneStateListener() {
+//            override fun onCallStateChanged(state: Int, incomingNumber: String) {
+//                super.onCallStateChanged(state, incomingNumber)
+//                val msg = "incomingNumber : $incomingNumber"
+//                val toast = Toast.makeText(context, msg, Toast.LENGTH_LONG)
+//                toast.show()
+//            }
+//        }, PhoneStateListener.LISTEN_CALL_STATE)
     }
 }

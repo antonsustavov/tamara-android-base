@@ -43,8 +43,8 @@ class TransmitterFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_transmitter, container, false)
         binding.lifecycleOwner = this
-        return binding.root
 
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,18 +66,17 @@ class TransmitterFragment : Fragment() {
             requestPermissions(arrayOf(Manifest.permission.ANSWER_PHONE_CALLS), 9579997)
         }
 
-
         setupViews()
         setupViewModeCallbacks()
 //        startForegroundSpeechListener()
 //        startCallingService()
-        startEnterCallingService()
+//        startEnterCallingService()
     }
 
-    private fun startEnterCallingService() {
-        val callIntent = Intent(requireActivity(), EnterCallService::class.java)
-        requireContext().startForegroundService(callIntent)
-    }
+//    private fun startEnterCallingService() {
+//        val callIntent = Intent(requireActivity(), EnterCallService::class.java)
+//        requireContext().startForegroundService(callIntent)
+//    }
 
     private fun startCallingService() {
         val callIntent = Intent(requireActivity(), CallService::class.java)
