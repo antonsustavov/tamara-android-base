@@ -88,7 +88,6 @@ class MainFragment : Fragment() {
         }
         setupClicks()
         observeEventBus()
-//        requireContext().startForegroundService(Intent(requireActivity(), TrackingService::class.java))
     }
 
     private fun observeEventBus() {
@@ -113,7 +112,6 @@ class MainFragment : Fragment() {
                     TrackingService::class.java
                 )
             )
-//            requireContext().startService(Intent(requireActivity(), TrackingService::class.java))
             Handler(Looper.getMainLooper()).postDelayed({
                 updateBackground()
                 startTrackingService()
@@ -259,8 +257,6 @@ class MainFragment : Fragment() {
     private fun startForegroundTrackingService() {
         if (!trackingServiceRunning()) {
             requireContext().startForegroundService(Intent(requireActivity(), TrackingService::class.java))
-//            val speechIntent = Intent(requireActivity(), SpeechListener::class.java)
-//            requireContext().startForegroundService(speechIntent)
         }
     }
 

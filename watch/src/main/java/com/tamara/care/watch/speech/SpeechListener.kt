@@ -60,12 +60,10 @@ class SpeechListener : LifecycleService(), RecognitionListener {
             RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
         )
         speechRecognizer.startListening(voice)
-//        mAudioManager.setVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER, AudioManager.VIBRATE_SETTING_OFF)
     }
 
     override fun onReadyForSpeech(params: Bundle?) {
         Log.d(TAG, params.toString())
-//        mAudioManager.setVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER, AudioManager.VIBRATE_SETTING_OFF)
     }
 
     override fun onBeginningOfSpeech() {
@@ -115,16 +113,10 @@ class SpeechListener : LifecycleService(), RecognitionListener {
     }
 
     private fun processVoiceRecognition(matches: ArrayList<String>) {
-//        val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
-//        vibrator.vibrate(VibrationEffect.createOneShot(5, 5))
-        Log.i(TAG, ">>>>>> SPEECH MATCHING $matches")
-//        Log.d(TAG, vibrator.hasVibrator().toString())
-//        Log.d(TAG, mAudioManager.ringerMode.toString())
+        Log.i(TAG, "SPEECH MATCHING $matches")
         matches.forEach {
             if (it.contains(KEY, true)) {
                 callService.call(applicationContext)
-//                speechRecognizer.cancel()
-//                startListening()
             }
         }
     }
@@ -145,9 +137,6 @@ class SpeechListener : LifecycleService(), RecognitionListener {
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "ON CREATE")
-//        mAudioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        //mAudioManager.ringerMode = 0
-//        mAudioManager.setVibrateSetting(AudioManager.VIBRATE_TYPE_RINGER, AudioManager.VIBRATE_SETTING_OFF)
         notificationManager = NotificationManager(this)
         createNotification()
     }

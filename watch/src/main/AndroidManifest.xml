@@ -93,7 +93,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-<!--                <action android:name="android.intent.action.QUICKBOOT_POWERON" />-->
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -105,8 +104,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-<!--                <action android:name="android.intent.action.QUICKBOOT_POWERON" />-->
-<!--                <action android:name="android.intent.action.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE" />-->
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -121,8 +118,6 @@
             android:exported="true">
             <intent-filter android:priority="0">
                 <action android:name="android.intent.action.PHONE_STATE" />
-                <!--                <action android:name="android.intent.action.CAL" />-->
-                <!--                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />-->
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
@@ -131,15 +126,5 @@
                 <action android:name="android.intent.action.CAL" />
             </intent-filter>
         </receiver>
-
-        <!--        <service android:name=".call.EnterCallService"-->
-        <!--            android:enabled="true"-->
-        <!--            android:exported="true"-->
-        <!--            android:permission="android.permission.BIND_IN_CALL_SERVICE">-->
-        <!--            <meta-data android:name="android.telecom.IN_CALL_SERVICE_UI" android:value="true" />-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="android.telecom.InCallService"/>-->
-        <!--            </intent-filter>-->
-        <!--        </service>-->
     </application>
 </manifest>
