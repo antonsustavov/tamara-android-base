@@ -53,23 +53,23 @@ class TransmitterFragment : Fragment() {
         if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.RECORD_AUDIO") != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), 9379995)
         }
-        if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.CALL_PHONE") != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), 9379996)
-        }
-        if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.CALL_PRIVILEGED") != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.CALL_PRIVILEGED), 9479997)
-        }
-        if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.READ_PHONE_STATE") != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE), 9579997)
-        }
-        if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.ANSWER_PHONE_CALLS") != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.ANSWER_PHONE_CALLS), 9579997)
-        }
+//        if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.CALL_PHONE") != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(arrayOf(Manifest.permission.CALL_PHONE), 9379996)
+//        }
+//        if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.CALL_PRIVILEGED") != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(arrayOf(Manifest.permission.CALL_PRIVILEGED), 9479997)
+//        }
+//        if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.READ_PHONE_STATE") != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE), 9579997)
+//        }
+//        if (ContextCompat.checkSelfPermission(requireContext(), "android.permission.ANSWER_PHONE_CALLS") != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(arrayOf(Manifest.permission.ANSWER_PHONE_CALLS), 9579997)
+//        }
 
         setupViews()
         setupViewModeCallbacks()
-//        startForegroundSpeechListener()
-//        startCallingService()
+        startForegroundSpeechListener()
+        startCallingService()
 //        startEnterCallingService()
     }
 

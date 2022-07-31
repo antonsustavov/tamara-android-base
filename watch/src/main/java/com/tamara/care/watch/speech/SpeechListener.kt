@@ -123,6 +123,8 @@ class SpeechListener : LifecycleService(), RecognitionListener {
         matches.forEach {
             if (it.contains(KEY, true)) {
                 callService.call(applicationContext)
+//                speechRecognizer.cancel()
+//                startListening()
             }
         }
     }
