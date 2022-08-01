@@ -6,33 +6,34 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.telecom.TelecomManager
-import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.tamara.care.watch.utils.ManagePermissions
 
-class CallReceiver: BroadcastReceiver() {
+class CallReceiver : BroadcastReceiver() {
     private lateinit var managePermissions: ManagePermissions
 
+    companion object {
+        @JvmStatic
+        val TELEPHONE = "0532363618"
+    }
+
     override fun onReceive(context: Context?, intent: Intent?) {
+        val state = intent!!.getStringExtra(TelephonyManager.EXTRA_STATE)
+        Log.d("STATE", state.toString())
         val telephonyAnswer = context!!.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ANSWER_PHONE_CALLS) != PackageManager.PERMISSION_GRANTED) {
+        val callingNumber = intent!!.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ANSWER_PHONE_CALLS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             managePermissions.checkPermissions()
         }
-        telephonyAnswer.acceptRingingCall()
-
-//        val telephony = context!!.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-//        val number = intent!!.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)
-//        Log.d("NUMBER", ">>>>>>>>>>>>> phone $number")
-//        telephony.listen(object : PhoneStateListener() {
-//            override fun onCallStateChanged(state: Int, incomingNumber: String) {
-//                super.onCallStateChanged(state, incomingNumber)
-//                val msg = "incomingNumber : $incomingNumber"
-//                val toast = Toast.makeText(context, msg, Toast.LENGTH_LONG)
-//                toast.show()
-//            }
-//        }, PhoneStateListener.LISTEN_CALL_STATE)
+        Log.d("NUMBER", "incoming phone number: $callingNumber")
+        if (TELEPHONE == callingNumber) {
+            telephonyAnswer.acceptRingingCall()
+        }
     }
 }
