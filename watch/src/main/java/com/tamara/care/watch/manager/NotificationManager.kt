@@ -4,6 +4,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_DEFAULT
+import android.app.NotificationManager.IMPORTANCE_LOW
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import com.tamara.care.watch.R
@@ -31,7 +32,8 @@ class NotificationManager(
             //.setColor(ContextCompat.getColor(context, R.color.black))
             .setSmallIcon(R.mipmap.ic_launcher)
             //.setAutoCancel(true)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setVibrate(longArrayOf(0,0,0,0,0))
             .build()
     }
 
@@ -41,7 +43,8 @@ class NotificationManager(
     }
 
     private fun createNotificationChannel() {
-        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE_DEFAULT)
+        val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE_LOW)
+        channel.enableVibration(false)
         notificationManager.createNotificationChannel(channel)
     }
 

@@ -1,0 +1,436 @@
+Index: watch/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/watch/src/main/res/values/strings.xml b/watch/src/main/res/values/strings.xml
+--- a/watch/src/main/res/values/strings.xml	(revision 32be4c5132d55b2ea4cb507387330bfe72a1677e)
++++ b/watch/src/main/res/values/strings.xml	(date 1653944852117)
+@@ -10,4 +10,5 @@
+     <string name="service_is_active">Service is active</string>
+     <string name="enter_transmitter_name">Enter transmitter name:</string>
+     <string name="run_service">Run service</string>
++    <string name="title_speachrecording">Module Title</string>
+ </resources>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 32be4c5132d55b2ea4cb507387330bfe72a1677e)
++++ b/.idea/misc.xml	(date 1654015505856)
+@@ -6,6 +6,7 @@
+         <entry key="watch/src/main/res/drawable/ic_launcher_foreground.xml" value="1.0955555555555556" />
+         <entry key="watch/src/main/res/layout/activity_main.xml" value="0.6160337552742616" />
+         <entry key="watch/src/main/res/layout/fragment_main.xml" value="0.5622362869198312" />
++        <entry key="watch/src/main/res/layout/fragment_transmitter.xml" value="0.1" />
+       </map>
+     </option>
+   </component>
+Index: speechrecording/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/speechrecording/.gitignore b/speechrecording/.gitignore
+new file mode 100644
+--- /dev/null	(date 1653944851947)
++++ b/speechrecording/.gitignore	(date 1653944851947)
+@@ -0,0 +1,1 @@
++/build
+\ No newline at end of file
+Index: speechrecording/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/speechrecording/src/main/AndroidManifest.xml b/speechrecording/src/main/AndroidManifest.xml
+new file mode 100644
+--- /dev/null	(date 1653997010349)
++++ b/speechrecording/src/main/AndroidManifest.xml	(date 1653997010349)
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:dist="http://schemas.android.com/apk/distribution"
++    package="com.tamara.care.watch.speachrecording">
++
++    <dist:module
++        dist:instant="true"
++        dist:title="@string/title_speachrecording">
++        <dist:delivery>
++            <dist:install-time />
++        </dist:delivery>
++        <dist:fusing dist:include="true" />
++    </dist:module>
++</manifest>
+\ No newline at end of file
+Index: speechrecording/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/speechrecording/build.gradle b/speechrecording/build.gradle
+new file mode 100644
+--- /dev/null	(date 1654018229930)
++++ b/speechrecording/build.gradle	(date 1654018229930)
+@@ -0,0 +1,42 @@
++plugins {
++    id 'com.android.dynamic-feature'
++    id 'org.jetbrains.kotlin.android'
++}
++android {
++    compileSdk 32
++
++    defaultConfig {
++        minSdk 23
++        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
++    }
++
++    buildTypes {
++        release {
++            minifyEnabled false
++            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
++        }
++    }
++//    flavorDimensions 'speechrecording'
++    buildToolsVersion '30.0.3'
++
++    productFlavors {
++        flavorDimensions "speechrecording"
++        prod {
++            buildConfigField "String", "MAIN_URL", '"https://homecare.tamaratech.com/api/v1/"'
++        }
++
++        dev {
++            buildConfigField "String", "MAIN_URL", '"https://backend-dev.tamara.lampawork.com/api/v1/"'
++        }
++    }
++}
++
++dependencies {
++    implementation project(":watch")
++    implementation 'androidx.core:core-ktx:1.7.0'
++    implementation 'androidx.appcompat:appcompat:1.4.1'
++    testImplementation 'junit:junit:4.13.2'
++    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
++    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
++    androidTestImplementation 'androidx.annotation:annotation:1.3.0'
++}
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+--- a/.idea/modules.xml	(revision 32be4c5132d55b2ea4cb507387330bfe72a1677e)
++++ b/.idea/modules.xml	(date 1653992928270)
+@@ -7,6 +7,10 @@
+       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.androidTest.iml" />
+       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.main.iml" filepath="$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.main.iml" />
+       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/mobile/Care_watch_app.mobile.unitTest.iml" />
++      <module fileurl="file://$PROJECT_DIR$/.idea/modules/speachrecording/Care_watch_app.speechrecording.iml" filepath="$PROJECT_DIR$/.idea/modules/speachrecording/Care_watch_app.speechrecording.iml" />
++      <module fileurl="file://$PROJECT_DIR$/.idea/modules/speechrecording/Care_watch_app.speechrecording.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/speechrecording/Care_watch_app.speechrecording.androidTest.iml" />
++      <module fileurl="file://$PROJECT_DIR$/.idea/modules/speechrecording/Care_watch_app.speechrecording.main.iml" filepath="$PROJECT_DIR$/.idea/modules/speechrecording/Care_watch_app.speechrecording.main.iml" />
++      <module fileurl="file://$PROJECT_DIR$/.idea/modules/speechrecording/Care_watch_app.speechrecording.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/speechrecording/Care_watch_app.speechrecording.unitTest.iml" />
+       <module fileurl="file://$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.iml" filepath="$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.iml" />
+       <module fileurl="file://$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.androidTest.iml" />
+       <module fileurl="file://$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.main.iml" filepath="$PROJECT_DIR$/.idea/modules/watch/Care_watch_app.watch.main.iml" />
+Index: watch/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/watch/src/main/AndroidManifest.xml b/watch/src/main/AndroidManifest.xml
+--- a/watch/src/main/AndroidManifest.xml	(revision 32be4c5132d55b2ea4cb507387330bfe72a1677e)
++++ b/watch/src/main/AndroidManifest.xml	(date 1654014195175)
+@@ -1,7 +1,10 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:dist="http://schemas.android.com/apk/distribution"
+     package="com.tamara.care.watch">
+ 
++    <dist:module dist:instant="true" />
++
+     <uses-permission android:name="android.permission.INTERNET" />
+     <uses-permission android:name="android.permission.WAKE_LOCK" />
+     <uses-permission android:name="android.permission.BODY_SENSORS" />
+@@ -11,8 +14,8 @@
+     <uses-permission android:name="android.permission.BLUETOOTH" />
+     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
++    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
++    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+ 
+     <uses-feature android:name="android.hardware.type.watch" />
+ 
+@@ -36,8 +39,7 @@
+             android:value="false" />
+ 
+         <activity
+-            android:name=".presentation.MainActivity"
+-            android:label="@string/app_name">
++            android:name=".presentation.MainActivity" android:label="@string/app_name" android:exported="true">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+ 
+@@ -45,8 +47,9 @@
+             </intent-filter>
+         </activity>
+ 
+-        <service android:name=".service.TrackingService"
+-            android:foregroundServiceType="location|dataSync"/>
++        <service
++            android:name=".service.TrackingService"
++            android:foregroundServiceType="location|dataSync" />
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--- a/.idea/gradle.xml	(revision 32be4c5132d55b2ea4cb507387330bfe72a1677e)
++++ b/.idea/gradle.xml	(date 1653992928279)
+@@ -11,6 +11,7 @@
+           <set>
+             <option value="$PROJECT_DIR$" />
+             <option value="$PROJECT_DIR$/mobile" />
++            <option value="$PROJECT_DIR$/speechrecording" />
+             <option value="$PROJECT_DIR$/watch" />
+           </set>
+         </option>
+Index: speechrecording/src/androidTest/java/com/tamara/care/watch/speechrecording/ExampleInstrumentedTest.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/speechrecording/src/androidTest/java/com/tamara/care/watch/speechrecording/ExampleInstrumentedTest.kt b/speechrecording/src/androidTest/java/com/tamara/care/watch/speechrecording/ExampleInstrumentedTest.kt
+new file mode 100644
+--- /dev/null	(date 1653992967651)
++++ b/speechrecording/src/androidTest/java/com/tamara/care/watch/speechrecording/ExampleInstrumentedTest.kt	(date 1653992967651)
+@@ -0,0 +1,24 @@
++package com.tamara.care.watch.speechrecording
++
++import androidx.test.platform.app.InstrumentationRegistry
++import androidx.test.ext.junit.runners.AndroidJUnit4
++
++import org.junit.Test
++import org.junit.runner.RunWith
++
++import org.junit.Assert.*
++
++/**
++ * Instrumented test, which will execute on an Android device.
++ *
++ * See [testing documentation](http://d.android.com/tools/testing).
++ */
++@RunWith(AndroidJUnit4::class)
++class ExampleInstrumentedTest {
++    @Test
++    fun useAppContext() {
++        // Context of the app under test.
++        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
++        assertEquals("com.tamara.care.watch.speachrecording", appContext.packageName)
++    }
++}
+\ No newline at end of file
+Index: watch/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/watch/build.gradle b/watch/build.gradle
+--- a/watch/build.gradle	(revision 32be4c5132d55b2ea4cb507387330bfe72a1677e)
++++ b/watch/build.gradle	(date 1654017819242)
+@@ -10,13 +10,13 @@
+ }
+ 
+ android {
+-    compileSdkVersion 30
++    compileSdk 32
+     buildToolsVersion "30.0.3"
+ 
+     defaultConfig {
+         applicationId "com.tamara.care.watch"
+         minSdkVersion 28
+-        targetSdkVersion 30
++        targetSdkVersion 32
+         versionCode 3
+         versionName "1.0"
+ 
+@@ -42,6 +42,7 @@
+     dataBinding {
+         enabled = true
+     }
++    dynamicFeatures = [':speechrecording']
+ }
+ 
+ ext {
+@@ -50,18 +51,18 @@
+ 
+ dependencies {
+ 
+-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+-    implementation 'androidx.core:core-ktx:1.6.0'
++    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.21"
++    implementation 'androidx.core:core-ktx:1.7.0'
+     implementation 'com.google.android.gms:play-services-wearable:17.1.0'
+     implementation 'androidx.percentlayout:percentlayout:1.0.0'
+     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+-    implementation 'androidx.wear:wear:1.1.0'
++    implementation 'androidx.wear:wear:1.2.0'
+     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1-native-mt'
+ 
+-    implementation 'com.google.android.gms:play-services-location:18.0.0'
++    implementation 'com.google.android.gms:play-services-location:19.0.1'
+ 
+-    implementation 'androidx.fragment:fragment-ktx:1.3.6'
++    implementation 'androidx.fragment:fragment-ktx:1.4.1'
+ 
+ 
+     // Network
+@@ -93,7 +94,7 @@
+     implementation 'com.google.firebase:firebase-analytics-ktx'
+ 
+     // room
+-    def room = "2.3.0"
++    def room = "2.4.0-alpha03"
+     implementation "androidx.room:room-runtime:$room"
+     implementation "androidx.room:room-ktx:$room"
+     kapt "androidx.room:room-compiler:$room"
+@@ -104,4 +105,7 @@
+     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+     
+     implementation files('libs/MTBeaconPlus.jar')
++
++//    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
++    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+ }
+\ No newline at end of file
+Index: watch/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/watch/src/main/res/layout/activity_main.xml b/watch/src/main/res/layout/activity_main.xml
+--- a/watch/src/main/res/layout/activity_main.xml	(revision 32be4c5132d55b2ea4cb507387330bfe72a1677e)
++++ b/watch/src/main/res/layout/activity_main.xml	(date 1654017445087)
+@@ -16,10 +16,6 @@
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             app:defaultNavHost="true"
+-            app:layout_constraintBottom_toBottomOf="parent"
+-            app:layout_constraintLeft_toLeftOf="parent"
+-            app:layout_constraintRight_toRightOf="parent"
+-            app:layout_constraintTop_toTopOf="parent"
+             app:navGraph="@navigation/nav_graph" />
+     </androidx.wear.widget.BoxInsetLayout>
+ 
+Index: speechrecording/src/test/java/com/tamara/care/watch/speechrecording/ExampleUnitTest.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/speechrecording/src/test/java/com/tamara/care/watch/speechrecording/ExampleUnitTest.kt b/speechrecording/src/test/java/com/tamara/care/watch/speechrecording/ExampleUnitTest.kt
+new file mode 100644
+--- /dev/null	(date 1653992967648)
++++ b/speechrecording/src/test/java/com/tamara/care/watch/speechrecording/ExampleUnitTest.kt	(date 1653992967648)
+@@ -0,0 +1,17 @@
++package com.tamara.care.watch.speechrecording
++
++import org.junit.Test
++
++import org.junit.Assert.*
++
++/**
++ * Example local unit test, which will execute on the development machine (host).
++ *
++ * See [testing documentation](http://d.android.com/tools/testing).
++ */
++class ExampleUnitTest {
++    @Test
++    fun addition_isCorrect() {
++        assertEquals(4, 2 + 2)
++    }
++}
+\ No newline at end of file
+Index: settings.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/settings.gradle b/settings.gradle
+--- a/settings.gradle	(revision 32be4c5132d55b2ea4cb507387330bfe72a1677e)
++++ b/settings.gradle	(date 1653992926427)
+@@ -1,3 +1,4 @@
+ rootProject.name = "Care watch app"
+ include ':watch'
+ include ':mobile'
++include ':speechrecording'
+Index: watch/src/main/res/layout/fragment_transmitter.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/watch/src/main/res/layout/fragment_transmitter.xml b/watch/src/main/res/layout/fragment_transmitter.xml
+--- a/watch/src/main/res/layout/fragment_transmitter.xml	(revision 32be4c5132d55b2ea4cb507387330bfe72a1677e)
++++ b/watch/src/main/res/layout/fragment_transmitter.xml	(date 1654017633506)
+@@ -1,8 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<layout>
++<layout xmlns:tools="http://schemas.android.com/tools">
+     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+         xmlns:app="http://schemas.android.com/apk/res-auto"
+-        xmlns:tools="http://schemas.android.com/tools"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         tools:context=".presentation.TransmitterFragment">
+@@ -10,34 +9,25 @@
+         <TextView
+             android:id="@+id/enterTransmitterName"
+             android:layout_width="0dp"
+-            app:layout_constraintStart_toStartOf="parent"
+-            app:layout_constraintBottom_toTopOf="@id/input_name"
+-            app:layout_constraintTop_toTopOf="parent"
+-            app:layout_constraintEnd_toEndOf="parent"
+             android:gravity="center"
+             android:layout_height="wrap_content"
+-            android:text="@string/enter_transmitter_name"/>
++            android:text="@string/enter_transmitter_name"
++            tools:ignore="MissingConstraints" />
+ 
+         <EditText
+             android:id="@+id/input_name"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_marginHorizontal="50dp"
+-            app:layout_constraintBottom_toTopOf="@id/button_info"
+-            app:layout_constraintEnd_toEndOf="parent"
+-            app:layout_constraintStart_toStartOf="parent"
+             android:inputType="text"
+             android:maxLines="1"
+-            app:layout_constraintTop_toBottomOf="@id/enterTransmitterName"/>
++            tools:ignore="MissingConstraints" />
+ 
+         <Button
+             android:id="@+id/button_info"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Save"
+-            app:layout_constraintBottom_toBottomOf="parent"
+-            app:layout_constraintEnd_toEndOf="parent"
+-            app:layout_constraintStart_toStartOf="parent"
+-            app:layout_constraintTop_toBottomOf="@id/input_name" />
++            tools:ignore="MissingConstraints" />
+     </androidx.constraintlayout.widget.ConstraintLayout>
+ </layout>
+\ No newline at end of file
